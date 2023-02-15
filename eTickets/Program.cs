@@ -1,7 +1,11 @@
+using eTickets.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<ConcertContext>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
 
 var app = builder.Build();
 
@@ -23,5 +27,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
 	name: "default",
 	pattern: "{controller=Home}/{action=Index}/{id?}");
+eTicketDbInitializer.Seed(app);
 
 app.Run();
+
