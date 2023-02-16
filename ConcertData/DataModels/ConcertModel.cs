@@ -32,7 +32,7 @@ namespace ConcertData.DataModels
         /// <summary>
         /// Venue for the concert
         /// </summary>
-        public virtual IVenueModel? Venue { get; set; }
+        public virtual VenueModel? Venue { get; set; }
 
 
         /// <summary>
@@ -76,6 +76,7 @@ namespace ConcertData.DataModels
         /// <summary>
         /// Collection of Performers
         /// </summary>
+         [NotMapped]
         public virtual ICollection<IPerformerModel> Performers { get; set; } = null!;
     }
 }
