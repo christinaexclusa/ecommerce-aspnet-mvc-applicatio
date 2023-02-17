@@ -1,4 +1,6 @@
-﻿using eTickets.Models;
+﻿using ConcertData.DataModels;
+using ConcertData.Enums;
+using eTickets.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -6,15 +8,26 @@ namespace eTickets.Controllers
 {
 	public class HomeController : Controller
 	{
-		private readonly ILogger<HomeController> _logger;
+        private readonly IHttpClientFactory httpClientFactory;
 
-		public HomeController(ILogger<HomeController> logger)
+        public HomeController(IHttpClientFactory httpClientFactory)
 		{
-			_logger = logger;
-		}
-
+            this.httpClientFactory = httpClientFactory;
+        }
+		
 		public IActionResult Index()
 		{
+			var apiModel = new BaseModel<BandModel>(httpClientFactory);
+			BandModel model = new() {
+				Id=5,
+				FullName = "John Moseley",
+				Bio = "Don't have one",
+				PreformerCategory = GenreEnum.Country,
+				ProfilePictureUrl = @"https://lh3.googleusercontent.com/p/AF1QipOCzZhPE1I7VOx6sqrXTbaaE9DZm2lYkrHYPzCF=s680-w680-h510"
+            };
+			//var b = apiModel.DeleteByIdAsync(6);
+			//var r = apiModel.AddAsync(model);
+			var e = apiModel.UpdateAsync(5, model);
 			return View();
 		}
 
