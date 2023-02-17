@@ -2,6 +2,7 @@
 using ConcertData.Interfaces;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json;
 
 namespace ConcertData.DataModels
 {
@@ -52,7 +53,12 @@ namespace ConcertData.DataModels
         /// <summary>
         /// List of bands the musician works for
         /// </summary>
-        public virtual ICollection<BandModel>? Bands { get; set; }
+        public virtual ICollection<BandMusicianModel> Bands { get; set; } = null!;
+
+        public override string ToString()
+        {
+            return JsonSerializer.Serialize(this);
+        }
     }
 }
 

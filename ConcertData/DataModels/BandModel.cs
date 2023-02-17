@@ -2,6 +2,7 @@
 using ConcertData.Interfaces;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json;
 
 namespace ConcertData.DataModels
 {
@@ -11,6 +12,7 @@ namespace ConcertData.DataModels
     [Table("Bands")]
     public class BandModel : IPerformerModel
     {
+
         /// <summary>
         /// Id Key field the Bands
         /// </summary>
@@ -53,6 +55,11 @@ namespace ConcertData.DataModels
         /// <summary>
         /// The musician in the band
         /// </summary>
-        public ICollection<MusicianModel> Musicians { get; set; } = null!;
+        public virtual ICollection<BandMusicianModel>? Musicians { get; set; }
+
+        public override string ToString()
+        {
+            return JsonSerializer.Serialize(this);
+        }
     }
 }

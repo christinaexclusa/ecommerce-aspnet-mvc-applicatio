@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace ConcertData.DataModels
 {
@@ -40,5 +41,9 @@ namespace ConcertData.DataModels
         /// </summary>
         // one to many relationship
         public virtual ICollection<ConcertModel>? Concerts { get; set; }
+        public override string ToString()
+        {
+            return JsonSerializer.Serialize(this);
+        }
     }
 }

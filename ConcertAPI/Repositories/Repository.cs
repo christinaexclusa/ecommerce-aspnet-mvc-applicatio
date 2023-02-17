@@ -53,7 +53,7 @@ public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity :
     /// <param name="entity">Data Model TEntity.</param>
     /// <param name="cancellationToken">cancellationToken.</param>
     /// <returns>Updated Data Model.</returns>
-    public virtual async Task<TEntity> UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
+    public virtual async Task<TEntity> UpdateAsync(int id, TEntity entity, CancellationToken cancellationToken = default)
     {
         entity = entity ?? throw new System.ArgumentNullException(nameof(entity));
         try
@@ -134,7 +134,9 @@ public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity :
     {
         try
         {
-            return await dbContext.Set<TEntity>().Where(predicate).ToListAsync(cancellationToken);
+            return await dbContext.Set<TEntity>()
+                .AsNoTracking()
+                .Where(predicate).ToListAsync(cancellationToken);
         }
         catch (Exception ex)
         {
@@ -156,6 +158,7 @@ public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity :
         try
         {
             retValue = await dbContext.Set<TEntity>()
+             .AsNoTracking()
              .Where(w => EF.Property<int>(w, "Id") == id)
              .FirstOrDefaultAsync(cancellationToken);
 
@@ -186,7 +189,9 @@ public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity :
         try
         {
 
-            retValue = await dbContext.Set<TEntity>().ToListAsync(cancellationToken);
+            retValue = await dbContext.Set<TEntity>()
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
 
             if (retValue == null)
             {
@@ -212,7 +217,6 @@ public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity :
     /// <returns>A list of TEntites.</returns>
     public virtual async Task<List<TEntity>> GetAllPageAsync(int pageIndex,
         int pageSize,
-        bool includeDeleted,
         string orderByColumn = "Id",
         CancellationToken cancellationToken = default)
     {
@@ -220,6 +224,7 @@ public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity :
         try
         {
             return await dbContext.Set<TEntity>()
+                .AsNoTracking()
                .OrderBy(o => EF.Property<object>(o, orderByColumn))
                .Skip(pageIndex * pageSize)
                .Take(pageSize).ToListAsync(cancellationToken);
@@ -242,17 +247,18 @@ public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity :
     /// <param name="searchText">Text to search.</param>
     /// <param name="cancellationToken">cancellationToken.</param>
     /// <returns>A list of TEntites.</returns>
-    public virtual async Task<IEnumerable<TEntity>> GetSearchEntityAsync(int pageIndex, int pageSize, string orderByColumn, string keyColumn, string searchText, CancellationToken cancellationToken = default)
+    public virtual async Task<List<TEntity>> GetSearchEntityAsync(int pageIndex, int pageSize, string orderByColumn, string keyColumn, string searchText, CancellationToken cancellationToken = default)
     {
         List<TEntity> retValue;
         pageIndex = pageIndex - 1;
         try
         {
             retValue = await dbContext.Set<TEntity>()
-            .Where(w => EF.Functions.Like((string)EF.Property<object>(w, keyColumn), $"%{searchText}%"))
-            .OrderBy(o => EF.Property<object>(o, orderByColumn))
-            .Skip(pageIndex * pageSize)
-            .Take(pageSize).ToListAsync(cancellationToken);
+                .AsNoTracking()
+                .Where(w => EF.Functions.Like((string)EF.Property<object>(w, keyColumn), $"%{searchText}%"))
+                .OrderBy(o => EF.Property<object>(o, orderByColumn))
+                .Skip(pageIndex * pageSize)
+                .Take(pageSize).ToListAsync(cancellationToken);
 
         }
         catch (Exception ex)

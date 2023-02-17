@@ -60,24 +60,24 @@ namespace ConcertAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BandModelMusicianModel",
+                name: "BandMusician",
                 columns: table => new
                 {
-                    BandsId = table.Column<int>(type: "int", nullable: false),
-                    MusiciansId = table.Column<int>(type: "int", nullable: false)
+                    BandId = table.Column<int>(type: "int", nullable: false),
+                    MusicianId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BandModelMusicianModel", x => new { x.BandsId, x.MusiciansId });
+                    table.PrimaryKey("PK_BandMusician", x => new { x.MusicianId, x.BandId });
                     table.ForeignKey(
-                        name: "FK_BandModelMusicianModel_Bands_BandsId",
-                        column: x => x.BandsId,
+                        name: "FK_BandMusician_Bands_BandId",
+                        column: x => x.BandId,
                         principalTable: "Bands",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BandModelMusicianModel_Musicians_MusiciansId",
-                        column: x => x.MusiciansId,
+                        name: "FK_BandMusician_Musicians_MusicianId",
+                        column: x => x.MusicianId,
                         principalTable: "Musicians",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -136,7 +136,26 @@ namespace ConcertAPI.Migrations
                 {
                     { 1, "https://lh3.googleusercontent.com/p/AF1QipOCzZhPE1I7VOx6sqrXTbaaE9DZm2lYkrHYPzCF=s680-w680-h510", "KEMBA Live!" },
                     { 2, "https://lh3.googleusercontent.com/p/AF1QipOC8C3lLf-X-4yMGvg-GTNrg3bWMXDLWdj1LOnx=s680-w680-h510", "Newport Music Hall" },
-                    { 3, "https://lh3.googleusercontent.com/p/AF1QipOC8C3lLf-X-4yMGvg-GTNrg3bWMXDLWdj1LOnx=s680-w680-h510", "Blossom Music Center" }
+                    { 3, "https://lh3.googleusercontent.com/p/AF1QipOC8C3lLf-X-4yMGvg-GTNrg3bWMXDLWdj1LOnx=s680-w680-h510", "Blossom Music Center" },
+                    { 4, "https://lh3.googleusercontent.com/p/AF1QipOC8C3lLf-X-4yMGvg-GTNrg3bWMXDLWdj1LOnx=s680-w680-h510", "Number 4 Music Center" },
+                    { 5, "https://lh3.googleusercontent.com/p/AF1QipOC8C3lLf-X-4yMGvg-GTNrg3bWMXDLWdj1LOnx=s680-w680-h510", "Number 5 Music Center" },
+                    { 6, "https://lh3.googleusercontent.com/p/AF1QipOC8C3lLf-X-4yMGvg-GTNrg3bWMXDLWdj1LOnx=s680-w680-h510", "Number 6 Music Center" },
+                    { 7, "https://lh3.googleusercontent.com/p/AF1QipOC8C3lLf-X-4yMGvg-GTNrg3bWMXDLWdj1LOnx=s680-w680-h510", "Number 7 Music Center" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "BandMusician",
+                columns: new[] { "BandId", "MusicianId" },
+                values: new object[,]
+                {
+                    { 5, 1 },
+                    { 6, 1 },
+                    { 5, 2 },
+                    { 5, 3 },
+                    { 7, 3 },
+                    { 5, 4 },
+                    { 6, 4 },
+                    { 7, 4 }
                 });
 
             migrationBuilder.InsertData(
@@ -145,14 +164,23 @@ namespace ConcertAPI.Migrations
                 values: new object[,]
                 {
                     { 1, new DateTime(2023, 7, 4, 10, 30, 0, 0, DateTimeKind.Unspecified), 2, "This is a good ole boys concert", "https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "Big Concert at the River", 10.0, 1 },
-                    { 2, new DateTime(2023, 7, 8, 10, 30, 0, 0, DateTimeKind.Unspecified), 1, "This is a good ole boys concert", "https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg", "Concert at the Beach", 10.0, 2 },
-                    { 3, new DateTime(2023, 8, 1, 10, 30, 0, 0, DateTimeKind.Unspecified), 1, "This is a good ole boys concert", "https://images.pexels.com/photos/995301/pexels-photo-995301.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "Concert at the Beach", 10.0, 3 }
+                    { 2, new DateTime(2023, 7, 8, 10, 30, 0, 0, DateTimeKind.Unspecified), 1, "This is a good ole boys concert", "https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg", "Concert 2 at the Beach", 10.0, 2 },
+                    { 3, new DateTime(2023, 8, 1, 10, 30, 0, 0, DateTimeKind.Unspecified), 1, "This is a good ole boys concert", "https://images.pexels.com/photos/995301/pexels-photo-995301.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "Concert 3 at the Beach", 10.0, 3 },
+                    { 4, new DateTime(2023, 7, 4, 10, 30, 0, 0, DateTimeKind.Unspecified), 2, "This is a good ole boys concert", "https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "Big Concert 4 at the River", 10.0, 1 },
+                    { 5, new DateTime(2023, 7, 8, 10, 30, 0, 0, DateTimeKind.Unspecified), 1, "This is a good ole boys concert", "https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg", "Concert 5 at the Beach", 10.0, 2 },
+                    { 6, new DateTime(2023, 8, 1, 10, 30, 0, 0, DateTimeKind.Unspecified), 1, "This is a good ole boys concert", "https://images.pexels.com/photos/995301/pexels-photo-995301.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "Concert 6 at the Beach", 10.0, 3 },
+                    { 7, new DateTime(2023, 7, 4, 10, 30, 0, 0, DateTimeKind.Unspecified), 2, "This is a good ole boys concert", "https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "Big Concert 7 at the River", 10.0, 1 },
+                    { 8, new DateTime(2023, 7, 8, 10, 30, 0, 0, DateTimeKind.Unspecified), 1, "This is a good ole boys concert", "https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg", "Concert 8 at the Beach", 10.0, 2 },
+                    { 9, new DateTime(2023, 8, 1, 10, 30, 0, 0, DateTimeKind.Unspecified), 1, "This is a good ole boys concert", "https://images.pexels.com/photos/995301/pexels-photo-995301.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "Concert 9 at the Beach", 10.0, 3 },
+                    { 10, new DateTime(2023, 7, 4, 10, 30, 0, 0, DateTimeKind.Unspecified), 2, "This is a good ole boys concert", "https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "Big Concert 10 at the River", 10.0, 6 },
+                    { 11, new DateTime(2023, 7, 8, 10, 30, 0, 0, DateTimeKind.Unspecified), 1, "This is a good ole boys concert", "https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg", "Concert 11 at the Beach", 10.0, 6 },
+                    { 12, new DateTime(2023, 8, 1, 10, 30, 0, 0, DateTimeKind.Unspecified), 1, "This is a good ole boys concert", "https://images.pexels.com/photos/995301/pexels-photo-995301.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", "Concert 12 at the Beach", 10.0, 6 }
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_BandModelMusicianModel_MusiciansId",
-                table: "BandModelMusicianModel",
-                column: "MusiciansId");
+                name: "IX_BandMusician_BandId",
+                table: "BandMusician",
+                column: "BandId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Concerts_VenueId",
@@ -164,7 +192,7 @@ namespace ConcertAPI.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "BandModelMusicianModel");
+                name: "BandMusician");
 
             migrationBuilder.DropTable(
                 name: "Concerts");

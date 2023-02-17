@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ConcertData.Interfaces;
+using System.Text.Json;
 
 namespace ConcertData.DataModels
 {
@@ -78,5 +79,10 @@ namespace ConcertData.DataModels
         /// </summary>
          [NotMapped]
         public virtual ICollection<IPerformerModel> Performers { get; set; } = null!;
+
+        public override string ToString()
+        {
+            return JsonSerializer.Serialize(this);
+        }
     }
 }

@@ -11,7 +11,8 @@ namespace ConcertAPI.Context
     {
         //Use DbSet on Data Models to initialize the tables
 
-        public DbSet<BandModel> BandModels { get; set; }
+        public DbSet<BandMusicianModel> BandMusicians { get; set; }
+        public DbSet<BandModel> Bands { get; set; }
         public DbSet<ConcertModel> Concerts { get; set; }
         public DbSet<MusicianModel> Musicians { get; set; }
         public DbSet<VenueModel> Venues { get; set; }
@@ -22,7 +23,7 @@ namespace ConcertAPI.Context
         /// <param name="optionsBuilder">DbContextOptionsBuilder class</param>
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //ToDo Change this to match the Database name as needed
+            //ToDo: Change this to match the Database name as needed
             if (Environment.UserName.ToUpper() == "JOHN")
             {
                 string connectionString = @"Data Source=localhost;Initial Catalog=ConcertData;Integrated Security=True;Encrypt=False";
@@ -42,10 +43,27 @@ namespace ConcertAPI.Context
         /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<BandMusicianModel>()
+           .HasKey(t => new { t.MusicianId, t.BandId });
+
+            modelBuilder.Entity<BandMusicianModel>()
+                .HasOne(bm => bm.Band)
+                .WithMany(p => p.Musicians)
+                .HasForeignKey(pt => pt.BandId);
+
+            modelBuilder.Entity<BandMusicianModel>()
+                .HasOne(pt => pt.Musician)
+                .WithMany(t => t.Bands)
+                .HasForeignKey(pt => pt.MusicianId);
+
             modelBuilder.Entity<VenueModel>().HasData(
                 new VenueModel { Id = 1, Name = "KEMBA Live!", LogoURL = @"https://lh3.googleusercontent.com/p/AF1QipOCzZhPE1I7VOx6sqrXTbaaE9DZm2lYkrHYPzCF=s680-w680-h510" },
                 new VenueModel { Id = 2, Name = "Newport Music Hall", LogoURL = @"https://lh3.googleusercontent.com/p/AF1QipOC8C3lLf-X-4yMGvg-GTNrg3bWMXDLWdj1LOnx=s680-w680-h510" },
-                new VenueModel { Id = 3, Name = "Blossom Music Center", LogoURL = @"https://lh3.googleusercontent.com/p/AF1QipOC8C3lLf-X-4yMGvg-GTNrg3bWMXDLWdj1LOnx=s680-w680-h510" }
+                new VenueModel { Id = 3, Name = "Blossom Music Center", LogoURL = @"https://lh3.googleusercontent.com/p/AF1QipOC8C3lLf-X-4yMGvg-GTNrg3bWMXDLWdj1LOnx=s680-w680-h510" },
+                new VenueModel { Id = 4, Name = "Number 4 Music Center", LogoURL = @"https://lh3.googleusercontent.com/p/AF1QipOC8C3lLf-X-4yMGvg-GTNrg3bWMXDLWdj1LOnx=s680-w680-h510" },
+                new VenueModel { Id = 5, Name = "Number 5 Music Center", LogoURL = @"https://lh3.googleusercontent.com/p/AF1QipOC8C3lLf-X-4yMGvg-GTNrg3bWMXDLWdj1LOnx=s680-w680-h510" },
+                new VenueModel { Id = 6, Name = "Number 6 Music Center", LogoURL = @"https://lh3.googleusercontent.com/p/AF1QipOC8C3lLf-X-4yMGvg-GTNrg3bWMXDLWdj1LOnx=s680-w680-h510" },
+                new VenueModel { Id = 7, Name = "Number 7 Music Center", LogoURL = @"https://lh3.googleusercontent.com/p/AF1QipOC8C3lLf-X-4yMGvg-GTNrg3bWMXDLWdj1LOnx=s680-w680-h510" }
                 );
             modelBuilder.Entity<MusicianModel>().HasData(
               new MusicianModel { Id = 1, FullName = "Gus Dapperton", Bio = "Punk musician played with Hippo Campusip in concerts", PreformerCategory = GenreEnum.Punk_Rock, ProfilePictureUrl = @"https://www.gusdapperton.com/sites/g/files/g2000015461/files/2022-10/artwork-440x440.jpg" },
@@ -59,10 +77,30 @@ namespace ConcertAPI.Context
                 new BandModel { Id = 7, FullName = "Hippo Campusip", PreformerCategory = GenreEnum.Punk_Rock, Bio = "Great Punck Rock Band", ProfilePictureUrl = @"https://cdn.shopify.com/s/files/1/0219/6940/products/CD_MOCK_square_1024x1024.jpg?v=1623341625" }
                 );
 
+            modelBuilder.Entity<BandMusicianModel>().HasData(
+                new BandMusicianModel { MusicianId = 1, BandId = 5 },
+                new BandMusicianModel { MusicianId = 2, BandId = 5 },
+                new BandMusicianModel { MusicianId = 1, BandId = 6  },
+                new BandMusicianModel { MusicianId = 4, BandId = 6 },
+                new BandMusicianModel { MusicianId = 4, BandId = 7 },
+                new BandMusicianModel { MusicianId = 3, BandId = 7 },
+                new BandMusicianModel { MusicianId = 3, BandId = 5 },
+                new BandMusicianModel { MusicianId = 4, BandId = 5 }
+                );
+
             modelBuilder.Entity<ConcertModel>().HasData(
                 new ConcertModel { Id = 1, VenueId = 1, Name = "Big Concert at the River", ConcertGenre = GenreEnum.Country, Description = "This is a good ole boys concert", Price = 10.00, ConcertDate = DateTime.Parse("07/04/2023 10:30:00"), ImageURL = @"https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" },
-                new ConcertModel { Id = 2, VenueId = 2, Name = "Concert at the Beach", ConcertGenre = GenreEnum.Pop, Description = "This is a good ole boys concert", Price = 10.00, ConcertDate = DateTime.Parse("07/08/2023 10:30:00"), ImageURL = @"https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg" },
-                new ConcertModel { Id = 3, VenueId = 3, Name = "Concert at the Beach", ConcertGenre = GenreEnum.Pop, Description = "This is a good ole boys concert", Price = 10.00, ConcertDate = DateTime.Parse("08/01/2023 10:30:00"), ImageURL = @"https://images.pexels.com/photos/995301/pexels-photo-995301.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" }
+                new ConcertModel { Id = 2, VenueId = 2, Name = "Concert 2 at the Beach", ConcertGenre = GenreEnum.Pop, Description = "This is a good ole boys concert", Price = 10.00, ConcertDate = DateTime.Parse("07/08/2023 10:30:00"), ImageURL = @"https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg" },
+                new ConcertModel { Id = 3, VenueId = 3, Name = "Concert 3 at the Beach", ConcertGenre = GenreEnum.Pop, Description = "This is a good ole boys concert", Price = 10.00, ConcertDate = DateTime.Parse("08/01/2023 10:30:00"), ImageURL = @"https://images.pexels.com/photos/995301/pexels-photo-995301.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" },
+                new ConcertModel { Id = 4, VenueId = 1, Name = "Big Concert 4 at the River", ConcertGenre = GenreEnum.Country, Description = "This is a good ole boys concert", Price = 10.00, ConcertDate = DateTime.Parse("07/04/2023 10:30:00"), ImageURL = @"https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" },
+                new ConcertModel { Id = 5, VenueId = 2, Name = "Concert 5 at the Beach", ConcertGenre = GenreEnum.Pop, Description = "This is a good ole boys concert", Price = 10.00, ConcertDate = DateTime.Parse("07/08/2023 10:30:00"), ImageURL = @"https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg" },
+                new ConcertModel { Id = 6, VenueId = 3, Name = "Concert 6 at the Beach", ConcertGenre = GenreEnum.Pop, Description = "This is a good ole boys concert", Price = 10.00, ConcertDate = DateTime.Parse("08/01/2023 10:30:00"), ImageURL = @"https://images.pexels.com/photos/995301/pexels-photo-995301.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" },
+                new ConcertModel { Id = 7, VenueId = 1, Name = "Big Concert 7 at the River", ConcertGenre = GenreEnum.Country, Description = "This is a good ole boys concert", Price = 10.00, ConcertDate = DateTime.Parse("07/04/2023 10:30:00"), ImageURL = @"https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" },
+                new ConcertModel { Id = 8, VenueId = 2, Name = "Concert 8 at the Beach", ConcertGenre = GenreEnum.Pop, Description = "This is a good ole boys concert", Price = 10.00, ConcertDate = DateTime.Parse("07/08/2023 10:30:00"), ImageURL = @"https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg" },
+                new ConcertModel { Id = 9, VenueId = 3, Name = "Concert 9 at the Beach", ConcertGenre = GenreEnum.Pop, Description = "This is a good ole boys concert", Price = 10.00, ConcertDate = DateTime.Parse("08/01/2023 10:30:00"), ImageURL = @"https://images.pexels.com/photos/995301/pexels-photo-995301.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" },
+                new ConcertModel { Id = 10, VenueId = 6, Name = "Big Concert 10 at the River", ConcertGenre = GenreEnum.Country, Description = "This is a good ole boys concert", Price = 10.00, ConcertDate = DateTime.Parse("07/04/2023 10:30:00"), ImageURL = @"https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" },
+                new ConcertModel { Id = 11, VenueId = 6, Name = "Concert 11 at the Beach", ConcertGenre = GenreEnum.Pop, Description = "This is a good ole boys concert", Price = 10.00, ConcertDate = DateTime.Parse("07/08/2023 10:30:00"), ImageURL = @"https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg" },
+                new ConcertModel { Id = 12, VenueId = 6, Name = "Concert 12 at the Beach", ConcertGenre = GenreEnum.Pop, Description = "This is a good ole boys concert", Price = 10.00, ConcertDate = DateTime.Parse("08/01/2023 10:30:00"), ImageURL = @"https://images.pexels.com/photos/995301/pexels-photo-995301.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" }
                 );
 
         }

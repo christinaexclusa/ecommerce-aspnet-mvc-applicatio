@@ -22,21 +22,6 @@ namespace ConcertAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("BandModelMusicianModel", b =>
-                {
-                    b.Property<int>("BandsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MusiciansId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BandsId", "MusiciansId");
-
-                    b.HasIndex("MusiciansId");
-
-                    b.ToTable("BandModelMusicianModel");
-                });
-
             modelBuilder.Entity("ConcertData.DataModels.BandModel", b =>
                 {
                     b.Property<int>("Id")
@@ -90,6 +75,63 @@ namespace ConcertAPI.Migrations
                             FullName = "Hippo Campusip",
                             PreformerCategory = 4,
                             ProfilePictureUrl = "https://cdn.shopify.com/s/files/1/0219/6940/products/CD_MOCK_square_1024x1024.jpg?v=1623341625"
+                        });
+                });
+
+            modelBuilder.Entity("ConcertData.DataModels.BandMusicianModel", b =>
+                {
+                    b.Property<int>("MusicianId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BandId")
+                        .HasColumnType("int");
+
+                    b.HasKey("MusicianId", "BandId");
+
+                    b.HasIndex("BandId");
+
+                    b.ToTable("BandMusician");
+
+                    b.HasData(
+                        new
+                        {
+                            MusicianId = 1,
+                            BandId = 5
+                        },
+                        new
+                        {
+                            MusicianId = 2,
+                            BandId = 5
+                        },
+                        new
+                        {
+                            MusicianId = 1,
+                            BandId = 6
+                        },
+                        new
+                        {
+                            MusicianId = 4,
+                            BandId = 6
+                        },
+                        new
+                        {
+                            MusicianId = 4,
+                            BandId = 7
+                        },
+                        new
+                        {
+                            MusicianId = 3,
+                            BandId = 7
+                        },
+                        new
+                        {
+                            MusicianId = 3,
+                            BandId = 5
+                        },
+                        new
+                        {
+                            MusicianId = 4,
+                            BandId = 5
                         });
                 });
 
@@ -152,7 +194,7 @@ namespace ConcertAPI.Migrations
                             ConcertGenre = 1,
                             Description = "This is a good ole boys concert",
                             ImageURL = "https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg",
-                            Name = "Concert at the Beach",
+                            Name = "Concert 2 at the Beach",
                             Price = 10.0,
                             VenueId = 2
                         },
@@ -163,9 +205,108 @@ namespace ConcertAPI.Migrations
                             ConcertGenre = 1,
                             Description = "This is a good ole boys concert",
                             ImageURL = "https://images.pexels.com/photos/995301/pexels-photo-995301.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-                            Name = "Concert at the Beach",
+                            Name = "Concert 3 at the Beach",
                             Price = 10.0,
                             VenueId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ConcertDate = new DateTime(2023, 7, 4, 10, 30, 0, 0, DateTimeKind.Unspecified),
+                            ConcertGenre = 2,
+                            Description = "This is a good ole boys concert",
+                            ImageURL = "https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                            Name = "Big Concert 4 at the River",
+                            Price = 10.0,
+                            VenueId = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            ConcertDate = new DateTime(2023, 7, 8, 10, 30, 0, 0, DateTimeKind.Unspecified),
+                            ConcertGenre = 1,
+                            Description = "This is a good ole boys concert",
+                            ImageURL = "https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg",
+                            Name = "Concert 5 at the Beach",
+                            Price = 10.0,
+                            VenueId = 2
+                        },
+                        new
+                        {
+                            Id = 6,
+                            ConcertDate = new DateTime(2023, 8, 1, 10, 30, 0, 0, DateTimeKind.Unspecified),
+                            ConcertGenre = 1,
+                            Description = "This is a good ole boys concert",
+                            ImageURL = "https://images.pexels.com/photos/995301/pexels-photo-995301.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                            Name = "Concert 6 at the Beach",
+                            Price = 10.0,
+                            VenueId = 3
+                        },
+                        new
+                        {
+                            Id = 7,
+                            ConcertDate = new DateTime(2023, 7, 4, 10, 30, 0, 0, DateTimeKind.Unspecified),
+                            ConcertGenre = 2,
+                            Description = "This is a good ole boys concert",
+                            ImageURL = "https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                            Name = "Big Concert 7 at the River",
+                            Price = 10.0,
+                            VenueId = 1
+                        },
+                        new
+                        {
+                            Id = 8,
+                            ConcertDate = new DateTime(2023, 7, 8, 10, 30, 0, 0, DateTimeKind.Unspecified),
+                            ConcertGenre = 1,
+                            Description = "This is a good ole boys concert",
+                            ImageURL = "https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg",
+                            Name = "Concert 8 at the Beach",
+                            Price = 10.0,
+                            VenueId = 2
+                        },
+                        new
+                        {
+                            Id = 9,
+                            ConcertDate = new DateTime(2023, 8, 1, 10, 30, 0, 0, DateTimeKind.Unspecified),
+                            ConcertGenre = 1,
+                            Description = "This is a good ole boys concert",
+                            ImageURL = "https://images.pexels.com/photos/995301/pexels-photo-995301.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                            Name = "Concert 9 at the Beach",
+                            Price = 10.0,
+                            VenueId = 3
+                        },
+                        new
+                        {
+                            Id = 10,
+                            ConcertDate = new DateTime(2023, 7, 4, 10, 30, 0, 0, DateTimeKind.Unspecified),
+                            ConcertGenre = 2,
+                            Description = "This is a good ole boys concert",
+                            ImageURL = "https://images.pexels.com/photos/1105666/pexels-photo-1105666.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                            Name = "Big Concert 10 at the River",
+                            Price = 10.0,
+                            VenueId = 6
+                        },
+                        new
+                        {
+                            Id = 11,
+                            ConcertDate = new DateTime(2023, 7, 8, 10, 30, 0, 0, DateTimeKind.Unspecified),
+                            ConcertGenre = 1,
+                            Description = "This is a good ole boys concert",
+                            ImageURL = "https://images.pexels.com/photos/1190297/pexels-photo-1190297.jpeg",
+                            Name = "Concert 11 at the Beach",
+                            Price = 10.0,
+                            VenueId = 6
+                        },
+                        new
+                        {
+                            Id = 12,
+                            ConcertDate = new DateTime(2023, 8, 1, 10, 30, 0, 0, DateTimeKind.Unspecified),
+                            ConcertGenre = 1,
+                            Description = "This is a good ole boys concert",
+                            ImageURL = "https://images.pexels.com/photos/995301/pexels-photo-995301.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                            Name = "Concert 12 at the Beach",
+                            Price = 10.0,
+                            VenueId = 6
                         });
                 });
 
@@ -273,22 +414,50 @@ namespace ConcertAPI.Migrations
                             Id = 3,
                             LogoURL = "https://lh3.googleusercontent.com/p/AF1QipOC8C3lLf-X-4yMGvg-GTNrg3bWMXDLWdj1LOnx=s680-w680-h510",
                             Name = "Blossom Music Center"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            LogoURL = "https://lh3.googleusercontent.com/p/AF1QipOC8C3lLf-X-4yMGvg-GTNrg3bWMXDLWdj1LOnx=s680-w680-h510",
+                            Name = "Number 4 Music Center"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            LogoURL = "https://lh3.googleusercontent.com/p/AF1QipOC8C3lLf-X-4yMGvg-GTNrg3bWMXDLWdj1LOnx=s680-w680-h510",
+                            Name = "Number 5 Music Center"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            LogoURL = "https://lh3.googleusercontent.com/p/AF1QipOC8C3lLf-X-4yMGvg-GTNrg3bWMXDLWdj1LOnx=s680-w680-h510",
+                            Name = "Number 6 Music Center"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            LogoURL = "https://lh3.googleusercontent.com/p/AF1QipOC8C3lLf-X-4yMGvg-GTNrg3bWMXDLWdj1LOnx=s680-w680-h510",
+                            Name = "Number 7 Music Center"
                         });
                 });
 
-            modelBuilder.Entity("BandModelMusicianModel", b =>
+            modelBuilder.Entity("ConcertData.DataModels.BandMusicianModel", b =>
                 {
-                    b.HasOne("ConcertData.DataModels.BandModel", null)
-                        .WithMany()
-                        .HasForeignKey("BandsId")
+                    b.HasOne("ConcertData.DataModels.BandModel", "Band")
+                        .WithMany("Musicians")
+                        .HasForeignKey("BandId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ConcertData.DataModels.MusicianModel", null)
-                        .WithMany()
-                        .HasForeignKey("MusiciansId")
+                    b.HasOne("ConcertData.DataModels.MusicianModel", "Musician")
+                        .WithMany("Bands")
+                        .HasForeignKey("MusicianId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Band");
+
+                    b.Navigation("Musician");
                 });
 
             modelBuilder.Entity("ConcertData.DataModels.ConcertModel", b =>
@@ -300,6 +469,16 @@ namespace ConcertAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("Venue");
+                });
+
+            modelBuilder.Entity("ConcertData.DataModels.BandModel", b =>
+                {
+                    b.Navigation("Musicians");
+                });
+
+            modelBuilder.Entity("ConcertData.DataModels.MusicianModel", b =>
+                {
+                    b.Navigation("Bands");
                 });
 
             modelBuilder.Entity("ConcertData.DataModels.VenueModel", b =>
